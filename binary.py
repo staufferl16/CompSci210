@@ -1,0 +1,115 @@
+"""
+Name: Leigh Stauffer
+File: binary.py
+Project1
+
+Functions for decimal/binary conversions.
+1. a = 108  b = 108  c = 108
+2. a = -51  b = -77  c = 205
+3. a = 00111000  b = 1010101  c = 11
+4. a = 0038  b = 01B6  c = 00D7
+"""
+
+def invert(bitString):
+   """Returns the bit string with the bits inverted."""
+   invertedString = ''
+   for bit in bitString:
+      if bit == '1':
+         invertedString += '0'
+      else:
+         invertedString += '1'
+   return invertedString
+
+def unsignedBinaryToDecimal(bitString):
+   """Returns the bit string of an unsigned binary number as a decimal."""
+   bitsSum = 0
+   for bit in range(1, len(bitString) + 1):
+      bitsSum += int(bitString[-bit]) * 2**(bit-1)
+   return bitsSum
+
+def unsignedDecimalToBinary(decimal):
+   """Returns a decimal as a binary number."""
+   remainderString = ""
+   if decimal == 0:
+      return 0
+   else:
+      while float(decimal) > 0:
+         if decimal % 2 == 1:
+            remainderString += "1"
+         elif decimal % 2 == 0:
+            remainderString += "0"
+         decimal = decimal // 2
+   return remainderString[::-1]
+
+def addOne(binary):
+   """Increases the value of a binary digit by 1."""
+   digit = unsignedBinaryToDecimal(binary) 
+   digit += 1
+   return unsignedDecimalToBinary(digit)
+
+def twosCompToDecimal(bitString):
+   """Converts a two's complement number to a decimal number."""
+   if bitString[0] == "1":
+      newDigit = invert(bitString)
+      newDigit = addOne(newDigit)
+      newDigit = unsignedBinaryToDecimal(newDigit) * -1
+   else:
+      newDigit = unsignedBinaryToDecimal(bitString)
+   return newDigit
+
+def decimalToTwosComp (decimal):
+   """Converts a decimal number to a two's complement number."""
+   if decimal > 0:
+      newDigit = unsignedDecimalToBinary(decimal)
+      if newDigit[0] == "1":
+         newDigit = "0" + newDigit
+   elif decimal < 0:
+      newDigit = abs(decimal)
+      newDigit = unsignedDecimalToBinary(newDigit)
+      if newDigit [0] == "1":
+         newDigit = "0" + newDigit
+      newDigit = invert(newDigit)
+      newDigit = addOne(newDigit)
+      
+   else:
+      newDigit = "0"
+   return newDigit
+
+def signExtend(twosCompString, total):
+   """Expects a two's complement number and the number of bits as arguments.
+   Extends the specified two's complement number to fit the number of bits."""
+   bits = total - len(twosCompString)
+   if twosCompString[0] == "0":
+      twosCompString = bits * "0" + twosCompString
+   else:
+      twosCompString = bits * "1" + twosCompString
+   return twosCompString
+   
+   
+
+def main():
+   """Test bed for decimal/binary conversion functions."""
+   print ("11001 ->", invert("00110"))
+
+   print ("0 ->", unsignedBinaryToDecimal("0"))
+   print ("6 ->", unsignedBinaryToDecimal("110"))
+   
+   print ("0 ->", unsignedDecimalToBinary(0))
+   print ("110 ->", unsignedDecimalToBinary(6))
+   print ("10000 ->", unsignedDecimalToBinary(16))
+
+   print ("110 ->", addOne("101"))
+
+   print ("5 ->", twosCompToDecimal("0101"))
+   print ("-5 ->", twosCompToDecimal("1011"))
+
+   print ("0101 ->", decimalToTwosComp(5))
+   print ("1011 ->", decimalToTwosComp(-5))
+
+   print ("00000101 ->", signExtend(decimalToTwosComp(5), 8))
+   print ("11111011 ->", signExtend(decimalToTwosComp(-5), 8))
+
+   
+
+if __name__ == "__main__":
+   main()
