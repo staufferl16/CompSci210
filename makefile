@@ -1,8 +1,5 @@
-testnumbers : testnumbers.o numbers.o
-	gcc -o testnumbers testnumbers.o numbers.o
+filestats : filestats.o
+	gcc -o filestats filestats.o
 
-testnumbers.o : testnumbers.c numbers.h
-	gcc -c testnumbers.c
-
-numbers.o : numbers.c
-	gcc -c numbers.c
+filestats.o : filestats.c
+	gcc -c filestats.c

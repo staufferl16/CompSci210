@@ -1,11 +1,13 @@
 /*
-Author: YOUR NAME GOES HERE
-
-This program prints statistics on a text file and prints a numbered
-listing to an output file or to the display.
+* Author: Leigh Stauffer
+* Project 9
+*
+* This program prints statistics on a text file and prints a numbered
+* listing to an output file or to the display.
 */
 
 #include <stdio.h>
+#include <string.h>
 
 void processFile(FILE *infile, FILE *outfile);
 
@@ -39,10 +41,43 @@ void processFile(FILE *infile, FILE *outfile){
     int fieldWidth = 4;
     char line[max];
     int lineNumber = 1;
+    int characters = 0;
+    int words = 0;
     while (fgets(line, max, infile)){
         fprintf(outfile, "%*d%s", fieldWidth, lineNumber, "> ");  
         fputs(line, outfile);
         lineNumber++;
-    }
+        characters += strlen(line);
+        words += wordCountInLine(line);
+	}
+    fprintf(outfile, "Lines: %d\n", lineNumber);
+    fprintf(outfile, "Words: %d\n", words);
+    fprintf(outfile, "Characters: %d\n", characters);
 }
+
+/*
+ * Expects a string as a parameter and returns the number of words
+ * in that string.
+ */
+int wordCountInLine(char *line){
+   int wordCount = 0;
+   int i = 0;
+   while(line[i] != 0){
+	while (line[i] == ' ' || line[i] == '\t' || 
+	       line[i] == '\n')
+	    i++;
+	if (line[i] != 0)
+	    wordCount++;
+        while (line[i] != ' ' && line[i] != '\t' && line[i] != '\n' &&
+               line[i] != 0)
+            i++;
+    }
+   return wordCount;
+}
+
+
+
+
+
+
 

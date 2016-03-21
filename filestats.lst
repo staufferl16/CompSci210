@@ -1,0 +1,86 @@
+   1> /*
+   2> * Author: Leigh Stauffer
+   3> * Project 9
+   4> *
+   5> * This program prints statistics on a text file and prints a numbered
+   6> * listing to an output file or to the display.
+   7> */
+   8> 
+   9> #include <stdio.h>
+  10> #include <string.h>
+  11> 
+  12> void processFile(FILE *infile, FILE *outfile);
+  13> 
+  14> int main(int length, char *argVec[]){
+  15>     if (length == 1){ 
+  16>         printf("Usage: ./filestats <input file> [<output file>]\n");
+  17> 	return; 
+  18>     }   
+  19>     FILE *infile = fopen(argVec[1], "r");
+  20>     if (infile == NULL){
+  21> 	printf("The input file does not exist in this directory\n");
+  22> 	return;
+  23>     }
+  24>     FILE *outfile;
+  25>     if (length == 3)
+  26> 	outfile = fopen(argVec[2], "w");    // Using an output file
+  27>     else
+  28> 	outfile = stdout;                   // Using the terminal
+  29>     processFile(infile, outfile);
+  30>     fclose(infile);
+  31>     if (outfile != stdout) 
+  32> 	fclose(outfile);
+  33> }
+  34> 
+  35> /*
+  36>  * Prints a numbered listing of the input file to
+  37>  * the output file
+  38>  */
+  39> void processFile(FILE *infile, FILE *outfile){
+  40>     int max = 80;
+  41>     int fieldWidth = 4;
+  42>     char line[max];
+  43>     int lineNumber = 1;
+  44>     int characters = 0;
+  45>     int words = 0;
+  46>     while (fgets(line, max, infile)){
+  47>         fprintf(outfile, "%*d%s", fieldWidth, lineNumber, "> ");  
+  48>         fputs(line, outfile);
+  49>         lineNumber++;
+  50>         characters += strlen(line);
+  51>         words += wordCountInLine(line);
+  52> 	}
+  53>     fprintf(outfile, "Lines: %d\n", lineNumber);
+  54>     fprintf(outfile, "Words: %d\n", words);
+  55>     fprintf(outfile, "Characters: %d\n", characters);
+  56> }
+  57> 
+  58> /*
+  59>  * Expects a string as a parameter and returns the number of words
+  60>  * in that string.
+  61>  */
+  62> int wordCountInLine(char *line){
+  63>    int wordCount = 0;
+  64>    int i = 0;
+  65>    while(line[i] != 0){
+  66> 	while (line[i] == ' ' || line[i] == '\t' || 
+  67> 	       line[i] == '\n')
+  68> 	    i++;
+  69> 	if (line[i] != 0)
+  70> 	    wordCount++;
+  71>         while (line[i] != ' ' && line[i] != '\t' && line[i] != '\n' &&
+  72>                line[i] != 0)
+  73>             i++;
+  74>     }
+  75>    return wordCount;
+  76> }
+  77> 
+  78> 
+  79> 
+  80> 
+  81> 
+  82> 
+  83> 
+Lines: 84
+Words: 261
+Characters: 1911
