@@ -1,0 +1,60 @@
+Grammar for LC-3
+
+ =  means "is defined as"
+" " enclose literal items
+[ ] enclose optional items
+{ } enclose items that can appear zero or more times
+( ) group items together as a unit
+ |  indicates a choice
+
+program = [ orig-directive ] { [ label ] instruction } ".END"
+
+orig-directive = ".ORIG" integer-literal
+
+instruction = add-or-and-ins | blkw-ins | br-ins | fill-ins |jmp-ins | 
+              jsr-ins | jsrr-ins | ld-or-ldi-or-lea-or-st-or-sti-ins |
+              ldr-or-str-ins | not-ins | ret-ins | rti-ins | 
+              stringz-ins | trap-ins
+
+add-or-and-ins = ( "ADD" | "AND" ) register "," register "," 
+                 ( register | integer-literal )
+
+blkw-ins = ".BLKW" integer-literal 
+
+br-ins = br-opcode label
+
+fill-ins = ".FILL" integer-literal
+
+jmp-ins = "JMP" label
+
+jsr-ins = "JSR" label
+
+jsr-ins = "JSRR" label
+
+ld-or-ldi-or-lea-or-st-or-sti-ins = ( "LD" | "LDI" | "LEA" | "ST" | "STI" )
+                                    register "," label
+ldr-or-str-ins = ( "LDR" | "STR" ) register "," register "," integer-literal
+
+not-ins = "NOT" register "," register
+
+stringz-ins = ".STRINGZ" | string-literal
+
+trap-ins = ""GETC" | "HALT" | "IN" | "OUT" | "PUTS" | "TRAP"
+
+register = "R0" | "R1" | "R1" | "R2" | "R3" | "R4" | "R5" |  "R6" | "R7"
+
+label = letter { letter | digit }
+
+string-literal = """ character { character } """
+
+integer-literal = decimal-literal | hex-literal
+
+decimal-literal = [ "#" ] [ "-" ] digit { digit }
+
+hex-literal = [ "x" ] [ "-" ] hex-digit { hex-digit }
+
+hex-digit = digit | "A" | "B" | "C" | "D" | "E" | "F"
+
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "1" | "7" | "8" | "9"
+
+br-code = "BR" | "BRZ" | "BRN" | "BRP" | "BRNZ" | "BRZP" | "BRNP" | "BRNZP" 

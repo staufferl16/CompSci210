@@ -1,0 +1,27 @@
+   1> ;; Author: Ken Lambert
+   2> 
+   3> .ORIG x3000
+   4> 
+   5> ; Program code	
+   6> 	LEA R0, PROMPT	; Display the prompt
+   7> 	PUTS
+   8> 	LD R1, RT	; Initialize the return character
+   9> 	LEA R2, ARRAY	; Get the base address of the array
+  10> 
+  11> CHLOOP	GETC		; Read and echo a character (stored in R0)
+  12> 	OUT	
+  13> 	ADD R3, R0, R1	; Quit if character = return
+  14> 	BRz ENDMAIN
+  15> 	STR R0, R2, #0	; Store that character in the array
+  16> 	ADD R2, R2, #1	; Increment the address of the array cell
+  17> 	BR CHLOOP	; Return to read another character
+  18> 	
+  19> ENDMAIN	STR R3, R2, #0	; Store the null character at the end of the array
+  20> 	HALT
+  21> 
+  22> ; Data variables
+  23> RT	.FILL 		x-000D	; The return character (negated)
+  24> PROMPT	.STRINGZ 	"Enter your name: "
+  25> ARRAY	.BLKW 30		; Array of 30 characters (including null)
+  26> 
+  27> .END
