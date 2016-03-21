@@ -130,30 +130,20 @@ def decimalToSinglePrecision (signedFloatDecimal):
    else:
       sign = "0"
    regularBinary = float(unsignedFloatToBinary(signedFloatDecimal))
-   exponent = 0
-   if regularBinary > 10:
-      while regularBinary >= 10:
-         regularBinary = regularBinary / 10
-         exponent += 1
-   elif regularBinary < 1:
-      while regularBinary <=1:
-         regularBinary = regularBinary * 10
-         exponent -= 1
-   exponent += 127
-   regularBinary = str(regularBinary)
-   tens = len(regularBinary) - 1
-   regularBinary = float(regularBinary)
-   fixedBinary = regularBinary * 10**tens
-   fixedBinary = int(fixedBinary)
-   fixedBinary = fixedBinary - 10**tens
-   finalBinary = str(fixedBinary)
-   while len(finalBinary) != tens:
-      finalBinary = "0" +finalBinary
-   binaryExponent = str(unsignedDecimalToBinary(exponent))
-   iEEE = sign + " " + binaryExponent + " " + finalBinary
-   bits = 32 - len(iEEE)
-   return iEEE + (bits * "0")
-    
+   normalBinary = normalize(regularBinary)
+   ePos = normalBinary.find("E")
+   significand = normalBinary.slice[:EPos]
+   floatSignificand = float(significand)
+   newSignificand = floatSignificand * -10
+   stringSignificand = str(newSignificand)
+   finalSignificand = stringSignificand[1:]
+   exponent = normalBinary.slice[EPos+1:]
+   biasedExponent = int(exponent) + 127
+   binaryExponent = unsignedDecimalToBinary(biasedExponent)
+   finalExponent = str(binaryExponent)
+   return sign + finalExponent + finalSignificand
+
+   
 
 def main():
    """Test bed for decimal/binary conversion functions."""
@@ -180,7 +170,7 @@ def main():
 ##   print ("0111 ->", unsignedFractionToBinary(.45,13))
 ##   print ("10.0111 ->", unsignedFloatToBinary(2.45,4))
 ##   print ("1.101E-3 ->", normalize(0.001101))
-##   print ("0 10000111 00111000111000000000000 ->", decimalToSinglePrecision(312.875))   
+   print ("0 10000111 00111000111000000000000 ->", decimalToSinglePrecision(312.875))   
 
 if __name__ == "__main__":
    main()
