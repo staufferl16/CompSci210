@@ -1,0 +1,50 @@
+;; Author: Ken Lambert
+
+;; This program prompts the user for a name and inputs it.
+;; The program also stores the input characters in an array, which
+;; is terminated with a null character.
+
+;; Pseudocode design:
+
+; print "Enter your name: "
+; loop
+; 	read and echo a character
+; 	if the character = return
+;       	break
+;       else
+;               store the character in the array
+; store a null character in the array
+
+        .ORIG x3000
+
+;; Register usage:
+; R0 = the input character
+; R1 = the base address of the array
+; R2 = the newline character
+; R3 = temporary working storage
+
+; Program code	
+        LEA     R0, PROMPT	; Display the prompt
+	PUTS
+	LEA     R1, ARRAY	; Get the base address of the array
+	LD      R2, RT	        ; Initialize the return character
+
+WHILE	GETC		        ; Read and echo a character (stored in R0)
+	OUT	
+	ADD     R3, R0, R2	; Quit if character = return
+	BRz     EXIT
+	STR     R0, R1, #0	; Store that character in the array
+	ADD     R1, R1, #1	; Increment the address of the array cell
+	BR      WHILE	        ; Return to read another character
+EXIT    STR     R3, R1, #0      ; Store the null character at the end of the array
+
+        LEA     R0, ARRAY       ; Display the string
+        PUTS
+	HALT
+
+; Data variables
+RT	.FILL 	x-000D	        ; The return character (negated)
+PROMPT	.STRINGZ "Enter your name: "
+ARRAY	.BLKW 30		; Array of 30 characters (including null)
+
+        .END

@@ -1,0 +1,31 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	RT                3008
+//	PROMPT            3009
+//	LENGTH            301A
+//	ARRAY             301B
+//	STRLEN            3039
+//	COUNT             303C
+//	ENDCOUNT          3041
+//	R1STRLEN          3044
+//	R3STRLEN          3045
+//	REV               3046
+//	WHILE             304E
+//	ENDREV            3059
+//	R1REV             305F
+//	R2REV             3060
+//	R3REV             3061
+//	R4REV             3062
+//	R7REV             3063
+//	GETS              3064
+//	WGETS             306A
+//	ENDGETS           3076
+//	R0GETS            307E
+//	R1GETS            307F
+//	R2GETS            3080
+//	R3GETS            3081
+//	R4GETS            3082
+//	R7GETS            3083
+

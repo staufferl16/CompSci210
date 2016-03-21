@@ -1,0 +1,31 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	MFIRST            3006
+//	MSECOND           3007
+//	MTOTAL            3008
+//	MUL               3009
+//	PROD              3014
+//	AGAIN             3015
+//	ENDMUL            3018
+//	FIRST             301D
+//	SECOND            301E
+//	TEMP              301F
+//	TOTAL             3020
+//	CHRTOINT          3021
+//	R1CHRTOINT        3026
+//	STRTOINT          3031
+//	FOR               303A
+//	BASE              3048
+//	SUM               304D
+//	LENGTH            304E
+//	TEN               304F
+//	WORK              3050
+//	R7STRTOINT        3051
+//	STRLEN            3052
+//	COUNT             3055
+//	ENDCOUNT          305A
+//	R1STRLEN          305D
+//	R3STRLEN          305E
+
