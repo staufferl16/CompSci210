@@ -1,8 +1,8 @@
-usemylib : usemylib.o mylib.o
-	gcc -o usemylib usemylib.o mylib.o
+testnumbers : testnumbers.o numbers.o
+	gcc -o testnumbers testnumbers.o numbers.o
 
-usemylib.o : usemylib.c mylib.h
-	gcc -c usemylib.c
+testnumbers.o : testnumbers.c numbers.h
+	gcc -c testnumbers.c
 
-mylib.o : mylib.c mylib.h
-	gcc -c mylib.c
+numbers.o : numbers.c
+	gcc -c numbers.c
